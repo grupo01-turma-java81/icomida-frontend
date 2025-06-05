@@ -1,19 +1,27 @@
-import { useState, type ChangeEvent, type FormEvent } from "react";
+import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
 import { cadastrarUsuario } from "../../services/Service";
 import type Usuario from "../../models/Usuario";
 import iconLogo from "../../assets/Icomidacadastrar (1) 1.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Cadastro() {
-  const [usuario, setUsuario] = useState<Usuario>({
-    id: 0,
-    nome: "",
-    usuario: "",
-    senha: "",
-    foto: "",
-  });
+  const navegar = useNavigate();
+
+  const [estaCarregando, setEstaCarregando] = useState<boolean>(false);
 
   const [confirmarSenha, setConfirmarSenha] = useState<string>("");
+
+  const [usuario, setUsuario] = useState<Usuario>({} as Usuario);
+
+  function retornar() {
+    navegar("/login");
+  }
+
+  useEffect(() => {
+    if (usuario.id !== undefined) {
+      retornar();
+    }
+  }, [usuario]);
 
   function atualizarEstado(e: ChangeEvent<HTMLInputElement>) {
     setUsuario({
@@ -22,27 +30,31 @@ function Cadastro() {
     });
   }
 
-  function confirmarSenhaHandle(e: ChangeEvent<HTMLInputElement>) {
+  function handleConfirmarSenha(e: ChangeEvent<HTMLInputElement>) {
     setConfirmarSenha(e.target.value);
   }
 
-  async function onSubmit(e: FormEvent<HTMLFormElement>) {
+  async function cadastrarNovoUsuario(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (usuario.senha.length < 8) {
-      alert("A senha deve conter no mínimo 8 caracteres.");
-      return;
+
+    if (confirmarSenha === usuario.senha && usuario.senha.length >= 8) {
+      setEstaCarregando(true);
+
+      try {
+        await cadastrarUsuario("/usuarios/cadastrar", usuario, setUsuario);
+        alert("Usuário cadastrado com sucesso!");
+      } catch (error) {
+        alert("Erro ao cadastrar o usuário!");
+      }
+    } else {
+      alert(
+        "Dados do usuário inconsistentes! Verifique as informações do cadastro."
+      );
+      setUsuario({ ...usuario, senha: "" });
+      setConfirmarSenha("");
     }
-    if (usuario.senha !== confirmarSenha) {
-      alert("As senhas não coincidem.");
-      return;
-    }
-    try {
-      const { id, ...usuarioSemId } = usuario;
-      await cadastrarUsuario("/usuarios/cadastrar", usuarioSemId, setUsuario);
-      alert("Usuário cadastrado com sucesso!");
-    } catch (error) {
-      alert("Erro ao cadastrar. Tente novamente.");
-    }
+
+    setEstaCarregando(false);
   }
 
   return (
@@ -65,7 +77,7 @@ function Cadastro() {
       </div>
 
       <div className="bg-white shadow-md rounded-xl mx-auto p-10 w-[90%] max-w-xl">
-        <form className="flex flex-col gap-6" onSubmit={onSubmit}>
+        <form className="flex flex-col gap-6" onSubmit={cadastrarNovoUsuario}>
           <div>
             <label
               htmlFor="nome"
@@ -78,7 +90,9 @@ function Cadastro() {
               id="nome"
               name="nome"
               value={usuario.nome}
-              onChange={atualizarEstado}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                atualizarEstado(e)
+              }
               placeholder="Ex: Iago"
               className="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E85D04]"
               required
@@ -97,7 +111,9 @@ function Cadastro() {
               id="usuario"
               name="usuario"
               value={usuario.usuario}
-              onChange={atualizarEstado}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                atualizarEstado(e)
+              }
               placeholder="Ex: iago@email.com"
               className="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E85D04]"
               required
@@ -116,7 +132,9 @@ function Cadastro() {
               id="senha"
               name="senha"
               value={usuario.senha}
-              onChange={atualizarEstado}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                atualizarEstado(e)
+              }
               placeholder="Deve conter no mínimo 8 caracteres"
               className="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E85D04]"
               required
@@ -135,7 +153,9 @@ function Cadastro() {
               id="confirmarSenha"
               name="confirmarSenha"
               value={confirmarSenha}
-              onChange={confirmarSenhaHandle}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                handleConfirmarSenha(e)
+              }
               placeholder="Deve conter no mínimo 8 caracteres"
               className="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E85D04]"
               required
@@ -154,7 +174,9 @@ function Cadastro() {
               id="foto"
               name="foto"
               value={usuario.foto}
-              onChange={atualizarEstado}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                atualizarEstado(e)
+              }
               placeholder="Adicione o link da sua foto"
               className="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E85D04]"
             />

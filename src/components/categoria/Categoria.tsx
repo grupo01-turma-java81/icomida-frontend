@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Pencil, Trash2, Check, X } from "lucide-react";
 import { buscar, cadastrar, atualizar, deletar } from "../../services/Service";
+import { AuthContext } from "../../contexts/AuthContext";
 
 type Categoria = { id: number; nome: string };
 
@@ -12,32 +13,31 @@ function Categoria() {
   const [editNome, setEditNome] = useState("");
   const navigate = useNavigate();
 
-  const token = localStorage.getItem("token");
+  const { usuario } = useContext(AuthContext);
 
   useEffect(() => {
-    if (!token) {
-      alert("Você precisa estar logado para acessar esta página.");
-      navigate("/login");
+    if (!usuario.token) {
+      navigate("/");
     }
-  }, [token, navigate]);
+  }, [usuario.token, navigate]);
 
   useEffect(() => {
-    if (token) {
+    if (usuario.token) {
       buscar("/categorias", setCategorias, {
-        headers: { Authorization: token },
+        headers: { Authorization: usuario.token },
       });
     }
-  }, [token]);
+  }, [usuario.token]);
 
   async function handleAddCategoria(e: React.FormEvent) {
     e.preventDefault();
     if (novaCategoria.trim() === "") return;
     try {
       await cadastrar("/categorias", { nome: novaCategoria }, () => {}, {
-        headers: { Authorization: token },
+        headers: { Authorization: usuario.token },
       });
       buscar("/categorias", setCategorias, {
-        headers: { Authorization: token },
+        headers: { Authorization: usuario.token },
       });
       setNovaCategoria("");
     } catch {
@@ -47,9 +47,11 @@ function Categoria() {
 
   async function handleDelete(id: number) {
     try {
-      await deletar(`/categorias/${id}`, { headers: { Authorization: token } });
+      await deletar(`/categorias/${id}`, {
+        headers: { Authorization: usuario.token },
+      });
       buscar("/categorias", setCategorias, {
-        headers: { Authorization: token },
+        headers: { Authorization: usuario.token },
       });
     } catch {
       alert("Erro ao deletar categoria.");
@@ -69,10 +71,10 @@ function Categoria() {
   async function handleSaveEdit(id: number) {
     try {
       await atualizar("/categorias", { id, nome: editNome }, () => {}, {
-        headers: { Authorization: token },
+        headers: { Authorization: usuario.token },
       });
       buscar("/categorias", setCategorias, {
-        headers: { Authorization: token },
+        headers: { Authorization: usuario.token },
       });
       setEditandoId(null);
       setEditNome("");
@@ -82,9 +84,9 @@ function Categoria() {
   }
 
   return (
-    <div className="min-h-screen bg-[# bg-[#ea3d26] flex flex-col">
+    <div className="min-h-screen bg-[# bg-white flex flex-col">
       <div className="flex flex-1 justify-center items-center gap-16 mt-10">
-        <div className="bg-[#f7f7f7] rounded-[2.5rem] p-10 w-[340px] flex flex-col shadow">
+        <div className="bg-[#f7f7f7] rounded-[2.5rem] p-10 w-[340px] flex flex-col shadow border-1">
           <h2 className="text-2xl font-bold mb-6">Nova Categoria</h2>
           <form onSubmit={handleAddCategoria} className="flex flex-col gap-4">
             <label htmlFor="novaCategoria" className="font-light">
@@ -106,7 +108,7 @@ function Categoria() {
           </form>
         </div>
 
-        <div className="bg-[#f7f7f7] rounded-[2.5rem] p-10 w-[440px] flex flex-col shadow">
+        <div className="bg-[#f7f7f7] rounded-[2.5rem] p-10 w-[440px] flex flex-col shadow border-1">
           <h2 className="text-2xl font-bold mb-6">Categorias existentes</h2>
           <div
             className="flex flex-col gap-5 overflow-y-auto"

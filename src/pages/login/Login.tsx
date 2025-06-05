@@ -1,68 +1,62 @@
-import React, { useState } from "react";
+import { useContext, useEffect, useState, type ChangeEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { login } from "../../services/Service";
 import type UsuarioLogin from "../../models/UsuarioLogin";
-import iconLogo from "../../assets/icon_logo.svg"
+import iconLogo from "../../assets/icon_logo.svg";
+import { AuthContext } from "../../contexts/AuthContext";
+import { cadastrarUsuario } from "../../services/Service";
 
-const Login: React.FC = () => {
-  const [usuarioLogin, setUsuarioLogin] = useState<UsuarioLogin>({
-    id: 0,
-    nome: "",
-    usuario: "",
-    senha: "",
-    foto: "",
-    token: ""
-  });
-
+function Login() {
   const navigate = useNavigate();
 
-  function atualizarEstado(e: React.ChangeEvent<HTMLInputElement>) {
+  const { usuario, handleLogin } = useContext(AuthContext);
+
+  const [usuarioLogin, setUsuarioLogin] = useState<UsuarioLogin>(
+    {} as UsuarioLogin
+  );
+
+  useEffect(() => {
+    if (usuario.token !== "") {
+      navigate("/home");
+    }
+  }, [usuario]);
+
+  function atualizarEstado(e: ChangeEvent<HTMLInputElement>) {
     setUsuarioLogin({
       ...usuarioLogin,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   }
 
-  async function handleSubmit(e: React.FormEvent) {
+  function login(e: ChangeEvent<HTMLFormElement>) {
     e.preventDefault();
-    try {
-      await login("/usuarios/logar", usuarioLogin, (resp: UsuarioLogin) => {
-        setUsuarioLogin(resp);
-        if (resp.token !== "") {
-          localStorage.setItem("token", resp.token);
-          navigate("/");
-        } else {
-          alert("Usuário ou senha inválidos!");
-        }
-      });
-    } catch {
-      alert("Erro ao tentar logar. Verifique usuário e senha.");
-    }
+    handleLogin(usuarioLogin);
   }
 
   return (
     <div className="min-h-screen bg-gray-100">
       <div className="flex justify-between items-center px-8 pt-4">
-      <Link to="/" className="text-[#E85D04] font-bold text-xl hover:underline">
-  iComida
-</Link>      
-    </div>
+        <Link
+          to="/"
+          className="text-[#E85D04] font-bold text-xl hover:underline"
+        >
+          iComida
+        </Link>
+      </div>
 
       <div className="flex flex-col items-center mt-4">
-        <img
-          src={iconLogo}
-          alt="icomida logo"
-          className="w-100 h-40 mb-2"
-        />
+        <img src={iconLogo} alt="icomida logo" className="w-100 h-40 mb-2" />
       </div>
 
       <div className="flex justify-center mt-4">
         <form
-          onSubmit={handleSubmit}
+          onSubmit={login}
           className="bg-white p-10 rounded shadow-md w-full max-w-xl"
         >
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700" htmlFor="usuario">
+            <label
+              className="block text-sm font-medium text-gray-700"
+              htmlFor="usuario"
+            >
               Usuário *
             </label>
             <input
@@ -70,7 +64,9 @@ const Login: React.FC = () => {
               name="usuario"
               type="text"
               value={usuarioLogin.usuario}
-              onChange={atualizarEstado}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                atualizarEstado(e)
+              }
               placeholder="ex: login@email.com"
               className="mt-1 w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-red-400"
               required
@@ -78,7 +74,10 @@ const Login: React.FC = () => {
           </div>
 
           <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-700" htmlFor="senha">
+            <label
+              className="block text-sm font-medium text-gray-700"
+              htmlFor="senha"
+            >
               Senha *
             </label>
             <input
@@ -86,7 +85,9 @@ const Login: React.FC = () => {
               name="senha"
               type="password"
               value={usuarioLogin.senha}
-              onChange={atualizarEstado}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                atualizarEstado(e)
+              }
               placeholder="Digite entre 8 e 16 caracteres"
               className="mt-1 w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-red-400"
               required
@@ -101,8 +102,13 @@ const Login: React.FC = () => {
           </button>
 
           <div className="text-center mt-6">
-            <span className="text-sm text-gray-600 mr-1">Não tem uma conta?</span>
-            <Link to="/cadastro" className="text-[#E85D04] font-semibold hover:underline">
+            <span className="text-sm text-gray-600 mr-1">
+              Não tem uma conta?
+            </span>
+            <Link
+              to="/cadastro"
+              className="text-[#E85D04] font-semibold hover:underline"
+            >
               Criar agora
             </Link>
           </div>
@@ -110,6 +116,6 @@ const Login: React.FC = () => {
       </div>
     </div>
   );
-};
+}
 
 export default Login;

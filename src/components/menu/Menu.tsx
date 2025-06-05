@@ -1,6 +1,7 @@
-import { useState, useEffect, type FormEvent } from "react";
+import { useState, useEffect, type FormEvent, useContext } from "react";
 import { Check, X, Pencil, Trash2 } from "lucide-react";
 import { buscar, cadastrar, atualizar, deletar } from "../../services/Service";
+import { AuthContext } from "../../contexts/AuthContext";
 
 type Categoria = {
   id: number;
@@ -28,18 +29,19 @@ function Menu() {
   const [editProdutoSaudavel, setEditProdutoSaudavel] = useState("Não");
   const [editCategoriaId, setEditCategoriaId] = useState<number | "">("");
   const [showForm, setShowForm] = useState(false);
-  const token = localStorage.getItem("token");
+
+  const { usuario } = useContext(AuthContext);
 
   useEffect(() => {
-    if (token) {
+    if (usuario.token) {
       buscar("/produto", setProdutos, {
-        headers: { Authorization: token },
+        headers: { Authorization: usuario.token },
       });
       buscar("/categorias", setCategorias, {
-        headers: { Authorization: token },
+        headers: { Authorization: usuario.token },
       });
     }
-  }, [token]);
+  }, [usuario.token]);
 
   function handleAddProduto(event: FormEvent<HTMLFormElement>): void {
     event.preventDefault();
@@ -53,7 +55,7 @@ function Menu() {
     };
 
     cadastrar("/produto", novoProduto, () => {}, {
-      headers: { Authorization: token },
+      headers: { Authorization: usuario.token },
     })
       .then(() => {
         setNome("");
@@ -62,7 +64,7 @@ function Menu() {
         setCategoriaId("");
         setShowForm(false);
         buscar("/produto", setProdutos, {
-          headers: { Authorization: token },
+          headers: { Authorization: usuario.token },
         });
         alert("Produto cadastrado com sucesso!");
       })
@@ -84,12 +86,12 @@ function Menu() {
     };
 
     atualizar("/produto", produtoAtualizado, () => {}, {
-      headers: { Authorization: token },
+      headers: { Authorization: usuario.token },
     })
       .then(() => {
         setEditandoId(null);
         buscar("/produto", setProdutos, {
-          headers: { Authorization: token },
+          headers: { Authorization: usuario.token },
         });
         alert("Produto atualizado com sucesso!");
       })
@@ -114,11 +116,11 @@ function Menu() {
     if (!window.confirm("Tem certeza que deseja excluir este produto?")) return;
 
     deletar(`/produto/${id}`, {
-      headers: { Authorization: token },
+      headers: { Authorization: usuario.token },
     })
       .then(() => {
         buscar("/produto", setProdutos, {
-          headers: { Authorization: token },
+          headers: { Authorization: usuario.token },
         });
         alert("Produto excluído com sucesso!");
       })
@@ -142,7 +144,7 @@ function Menu() {
             className="bg-[#ea3d26] text-white font-bold rounded-full px-7 py-3 text-lg shadow hover:bg-red-700 transition w-fit"
             onClick={() => setShowForm(!showForm)}
           >
-            Novo produto &gt;
+            Novo produto
           </button>
         </div>
         <img
@@ -213,7 +215,7 @@ function Menu() {
               <div className="flex gap-2">
                 <button
                   type="submit"
-                  className="bg-[#ea3d26] text-white font-semibold rounded-md py-2 mt-2 hover:bg-red-700 transition flex-1"
+                  className="bg-green-400 text-white font-semibold rounded-md py-2 mt-2 hover:bg-green-300 transition flex-1"
                 >
                   Cadastrar
                 </button>
