@@ -5,10 +5,13 @@ import Login from "./pages/login/Login";
 import Menu from "./components/menu/Menu";
 import Categoria from "./components/categoria/Categoria";
 import { LandingPage } from "./pages/landingpage/LanginPage";
+import Navbar from "./components/navbar/Navbar";
+import Footer from "./components/footer/Footer";
 
 function App() {
   return (
     <BrowserRouter>
+      <Navbar />
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/home" element={<Home />} />
@@ -17,6 +20,7 @@ function App() {
         <Route path="/menu" element={<Menu />} />
         <Route path="/categoria" element={<Categoria />} />
       </Routes>
+      <Footer />
     </BrowserRouter>
   );
 }
