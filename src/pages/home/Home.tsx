@@ -5,7 +5,7 @@ function Home() {
     <div
       className="font-sans text-gray-800 min-h-screen bg-white flex flex-col justify-center items-start px-12"
       style={{
-        backgroundImage: "url('https://ik.imagekit.io/uhimtlk7c/Design_sem_nome_18.png?updatedAt=1749047505922')",
+        backgroundImage: "url('https://ik.imagekit.io/uhimtlk7c/Design_sem_nome_22.png?updatedAt=1749132863071')",
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
