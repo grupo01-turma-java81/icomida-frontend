@@ -12,10 +12,8 @@ function Categoria() {
   const [editNome, setEditNome] = useState("");
   const navigate = useNavigate();
 
-  // Recupera o token do localStorage
   const token = localStorage.getItem("token");
 
-  // Redireciona para login se não estiver autenticado
   useEffect(() => {
     if (!token) {
       alert("Você precisa estar logado para acessar esta página.");
@@ -23,7 +21,6 @@ function Categoria() {
     }
   }, [token, navigate]);
 
-  // Buscar categorias ao carregar a página
   useEffect(() => {
     if (token) {
       buscar("/categorias", setCategorias, {
@@ -32,7 +29,6 @@ function Categoria() {
     }
   }, [token]);
 
-  // Cadastrar nova categoria
   async function handleAddCategoria(e: React.FormEvent) {
     e.preventDefault();
     if (novaCategoria.trim() === "") return;
@@ -50,7 +46,6 @@ function Categoria() {
     }
   }
 
-  // Deletar categoria
   async function handleDelete(id: number) {
     try {
       await deletar(`/categorias/${id}`, { headers: { Authorization: token } });
@@ -60,7 +55,6 @@ function Categoria() {
     }
   }
 
-  // Iniciar edição
   function handleEdit(id: number, nome: string) {
     setEditandoId(id);
     setEditNome(nome);
@@ -93,12 +87,13 @@ function Categoria() {
     <div className="min-h-screen bg-[# bg-[#ea3d26] flex flex-col">
     
       <div className="flex justify-between items-center px-12 py-6 bg-[#eaeaea] rounded-4xl mx-8 mt-6">
-        <span className="text-3xl font-bold   text-[#ea3d26]">iComida</span>
+       <Link to="/" className="text-3xl font-bold text-[#ea3d26] hover:text-black transition-colors">
+        iComida
+       </Link>
         <nav className="space-x-8 text-xl flex items-center">
-          <Link to="/" className="hover:underline">Home</Link>
-          <Link to="/menu" className="hover:underline">Menu</Link>
-          <Link to="/categoria" className="hover:underline text-black">Categoria</Link>
-          <Link to="/login" className="hover:underline">Sair</Link>
+          <Link to="/home" className="hover:text-red-500 font-semibold transition-colors">Home</Link>
+          <Link to="/menu" className="hover:text-red-500 font-semibold transition-colors">Menu</Link>
+          <Link to="/login" className="hover:text-red-500 font-semibold transition-colors">Sair</Link>
         </nav>
       </div>
       
@@ -107,7 +102,7 @@ function Categoria() {
         <div className="bg-[#f7f7f7] rounded-[2.5rem] p-10 w-[340px] flex flex-col shadow">
           <h2 className="text-2xl font-bold mb-6">Nova Categoria</h2>
           <form onSubmit={handleAddCategoria} className="flex flex-col gap-4">
-            <label htmlFor="novaCategoria" className="font-semibold">Nome</label>
+            <label htmlFor="novaCategoria" className="font-light">Digite o nome da nova categoria...</label>
             <input
               id="novaCategoria"
               type="text"
@@ -117,7 +112,7 @@ function Categoria() {
             />
             <button
               type="submit"
-              className="bg-[#ea3d26] text-white font-semibold rounded-md py-2 mt-2 hover:bg-red-700 transition"
+              className="bg-[#ea3d26] text-white font-semibold rounded-md py-2 mt-2 hover:bg-red-700 transition cursor-pointer"
             >
               Cadastrar Categoria
             </button>
@@ -145,20 +140,20 @@ function Categoria() {
                     autoFocus
                   />
                 ) : (
-                  <span>{cat.nome}</span>
+                  <span className="flex-1">{cat.nome}</span>
                 )}
-                <div className="flex gap-3">
+                <div className="flex gap-3 items-center">
                   {editandoId === cat.id ? (
                     <>
                       <button
-                        className="p-2 rounded-full hover:bg-green-100 transition"
+                        className="p-2 rounded-full hover:bg-green-100 transition cursor-pointer"
                         title="Salvar"
                         onClick={() => handleSaveEdit(cat.id)}
                       >
                         <Check className="w-5 h-5 text-green-600" />
                       </button>
                       <button
-                        className="p-2 rounded-full hover:bg-gray-200 transition"
+                        className="p-2 rounded-full hover:bg-gray-200 transition cursor-pointer"
                         title="Cancelar"
                         onClick={handleCancelEdit}
                       >
@@ -168,14 +163,14 @@ function Categoria() {
                   ) : (
                     <>
                       <button
-                        className="p-2 rounded-full hover:bg-gray-200 transition"
+                        className="p-2 rounded-full hover:bg-gray-200 transition cursor-pointer"
                         title="Editar"
                         onClick={() => handleEdit(cat.id, cat.nome)}
                       >
                         <Pencil className="w-5 h-5" />
                       </button>
                       <button
-                        className="p-2 rounded-full hover:bg-gray-200 transition"
+                        className="p-2 rounded-full hover:bg-gray-200 transition cursor-pointer"
                         title="Excluir"
                         onClick={() => handleDelete(cat.id)}
                       >
