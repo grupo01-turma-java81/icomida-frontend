@@ -1,7 +1,7 @@
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import { cadastrarUsuario } from "../../services/Service";
 import type Usuario from "../../models/Usuario";
-import iconLogo from "../../assets/Icomidacadastrar (1) 1.svg"
+import iconLogo from "../../assets/Icomidacadastrar (1) 1.svg";
 
 function Cadastro() {
   const [usuario, setUsuario] = useState<Usuario>({
@@ -52,7 +52,7 @@ function Cadastro() {
 
       <div className="flex justify-center mb-6">
         <img
-          src= {iconLogo}
+          src={iconLogo}
           alt="Icomidacadastrar (1) 1.svg"
           className="w-100 h-40"
         />
@@ -61,7 +61,10 @@ function Cadastro() {
       <div className="bg-white shadow-md rounded-xl mx-auto p-10 w-[90%] max-w-xl">
         <form className="flex flex-col gap-6" onSubmit={onSubmit}>
           <div>
-            <label htmlFor="nome" className="block text-gray-700 font-medium mb-1">
+            <label
+              htmlFor="nome"
+              className="block text-gray-700 font-medium mb-1"
+            >
               Nome *
             </label>
             <input
@@ -77,7 +80,10 @@ function Cadastro() {
           </div>
 
           <div>
-            <label htmlFor="usuario" className="block text-gray-700 font-medium mb-1">
+            <label
+              htmlFor="usuario"
+              className="block text-gray-700 font-medium mb-1"
+            >
               Usuário *
             </label>
             <input
@@ -93,7 +99,10 @@ function Cadastro() {
           </div>
 
           <div>
-            <label htmlFor="senha" className="block text-gray-700 font-medium mb-1">
+            <label
+              htmlFor="senha"
+              className="block text-gray-700 font-medium mb-1"
+            >
               Senha *
             </label>
             <input
@@ -109,7 +118,10 @@ function Cadastro() {
           </div>
 
           <div>
-            <label htmlFor="confirmarSenha" className="block text-gray-700 font-medium mb-1">
+            <label
+              htmlFor="confirmarSenha"
+              className="block text-gray-700 font-medium mb-1"
+            >
               Confirmar Senha *
             </label>
             <input
@@ -125,7 +137,10 @@ function Cadastro() {
           </div>
 
           <div>
-            <label htmlFor="foto" className="block text-gray-700 font-medium mb-1">
+            <label
+              htmlFor="foto"
+              className="block text-gray-700 font-medium mb-1"
+            >
               Foto
             </label>
             <input

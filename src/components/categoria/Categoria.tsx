@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Pencil, Trash2, Check, X } from "lucide-react";
 import { buscar, cadastrar, atualizar, deletar } from "../../services/Service";
 
@@ -83,38 +83,6 @@ function Categoria() {
 
   return (
     <div className="min-h-screen bg-[# bg-[#ea3d26] flex flex-col">
-      <div className="flex justify-between items-center px-12 py-6 bg-[#eaeaea] rounded-4xl mx-8 mt-6">
-        <Link
-          to="/"
-          className="text-3xl font-bold text-[#ea3d26] hover:text-black transition-colors"
-        >
-          iComida
-        </Link>
-        <nav className="space-x-8 text-xl flex items-center">
-          <Link
-            to="/home"
-            className="hover:text-red-500 font-semibold transition-colors"
-          >
-            Home
-          </Link>
-          <span className="text-red-800 underline font-semibold">
-            Categoria
-          </span>
-          <Link
-            to="/menu"
-            className="hover:text-red-500 font-semibold transition-colors"
-          >
-            Menu
-          </Link>
-          <Link
-            to="/login"
-            className="hover:text-red-500 font-semibold transition-colors"
-          >
-            Sair
-          </Link>
-        </nav>
-      </div>
-
       <div className="flex flex-1 justify-center items-center gap-16 mt-10">
         <div className="bg-[#f7f7f7] rounded-[2.5rem] p-10 w-[340px] flex flex-col shadow">
           <h2 className="text-2xl font-bold mb-6">Nova Categoria</h2>

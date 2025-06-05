@@ -1,8 +1,6 @@
 import { useState, useEffect, type FormEvent } from "react";
 import { Check, X, Pencil, Trash2 } from "lucide-react";
 import { buscar, cadastrar, atualizar, deletar } from "../../services/Service";
-import Navbar from "../navbar/Navbar";
-import Footer from "../footer/Footer";
 
 type Categoria = {
   id: number;
@@ -131,9 +129,6 @@ function Menu() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#fafafa]">
-      <Navbar />
-
-      {/* Banner */}
       <div className="w-full bg-[#e5e5e5] flex items-center justify-between px-16 py-10 mt-2 rounded-lg">
         <div className="flex flex-col gap-4 max-w-[400px]">
           <h1 className="text-6xl font-extrabold text-black drop-shadow-lg leading-tight">
@@ -157,7 +152,6 @@ function Menu() {
         />
       </div>
 
-      {/* Formulário Novo Produto */}
       {showForm && (
         <div className="flex justify-center mt-8">
           <div className="bg-white rounded-2xl p-8 w-[350px] shadow-lg border">
@@ -236,7 +230,6 @@ function Menu() {
         </div>
       )}
 
-      {/* Lista de Produtos */}
       <div className="flex flex-col items-center mt-12 mb-32">
         <h2 className="text-2xl font-bold mb-6">Produtos cadastrados</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-4xl">
@@ -370,7 +363,6 @@ function Menu() {
           ))}
         </div>
       </div>
-      <Footer />
     </div>
   );
 }
