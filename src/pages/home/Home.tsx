@@ -1,11 +1,6 @@
-import React from "react";
-import Navbar from "../../components/navbar/Navbar";
-import Footer from "../../components/footer/Footer";
-
 function Home() {
   return (
     <div className="font-sans text-gray-800">
-      <Navbar />
       <main className="flex flex-col md:flex-row justify-between items-center p-10">
         <section className="max-w-md">
           <h1 className="text-4xl font-bold">
@@ -34,7 +29,6 @@ function Home() {
           />
         </section>
       </main>
-      <Footer />
     </div>
   );
 }
