@@ -2,6 +2,7 @@ import { useState, type ChangeEvent, type FormEvent } from "react";
 import { cadastrarUsuario } from "../../services/Service";
 import type Usuario from "../../models/Usuario";
 import iconLogo from "../../assets/Icomidacadastrar (1) 1.svg"
+import { Link } from "react-router-dom";
 
 function Cadastro() {
   const [usuario, setUsuario] = useState<Usuario>({
@@ -47,7 +48,9 @@ function Cadastro() {
   return (
     <div className="flex flex-col min-h-screen bg-[#f9f9f9]">
       <div className="flex justify-between items-center px-8 py-4">
-        <span className="text-[#E85D04] text-xl font-bold">iComida</span>
+       <Link to="/" className="text-[#E85D04] font-bold text-xl hover:underline">
+  iComida
+</Link>   
       </div>
 
       <div className="flex justify-center mb-6">

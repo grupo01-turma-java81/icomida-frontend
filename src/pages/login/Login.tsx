@@ -45,7 +45,8 @@ const Login: React.FC = () => {
       <div className="flex justify-between items-center px-8 pt-4">
       <Link to="/" className="text-[#E85D04] font-bold text-xl hover:underline">
   iComida
-</Link>      </div>
+</Link>      
+    </div>
 
       <div className="flex flex-col items-center mt-4">
         <img
