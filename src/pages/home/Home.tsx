@@ -22,11 +22,6 @@ function Home() {
           </div>
         </section>
         <section className="mt-10 md:mt-0 md:max-w-md">
-          <img
-            src="/path/to/food-image.jpg" // Substitua pelo caminho correto da imagem
-            alt="Prato de comida"
-            className="rounded-lg shadow-lg"
-          />
         </section>
       </main>
     </div>
