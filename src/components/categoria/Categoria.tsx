@@ -97,6 +97,9 @@ function Categoria() {
           >
             Home
           </Link>
+          <span className="text-red-800 underline font-semibold">
+            Categoria
+          </span>
           <Link
             to="/menu"
             className="hover:text-red-500 font-semibold transition-colors"
