@@ -2,28 +2,16 @@ import { Link } from "react-router-dom";
 
 function Navbar() {
   return (
-    <header className="flex justify-between items-center p-6 bg-[#FDAB9E]  border-e-red-300">
-      <div className="text-2xl font-bold text-pink-600">iComida</div>
+    <header className="flex justify-between items-center p-6 bg-[#E83E28]  border-e-red-300">
+      <div className="text-2xl font-bold text-black">iComida</div>
       <nav className="flex space-x-6">
-        <a href="#home" className="hover:text-pink-600 font-semibold">
-          Home
-        </a>
-       
-        <a href="#menu" className="hover:text-pink-600 font-semibold">
-          <Link to="/menu" className="hover:underline">Menu</Link>
-        </a>
-        <a href="#categoria" className="hover:text-pink-600 font-semibold">
-          <Link to="/categoria" className="hover:underline">Categoria</Link>
-        </a>
-        <a href="#categoria" className="hover:text-pink-600 font-semibold">
-          Perfil
-        </a>
-        <a href="#sair" className="hover:text-pink-600 font-semibold">
-          Sair
-        </a>
+        <Link to="/home" className="hover:underline font-semibold">Home</Link>
+        <Link to="/menu" className="hover:underline font-semibold">Menu</Link>
+        <Link to="/categoria" className="hover:underline font-semibold">Categoria</Link>
+        <Link to="" className="hover:underline font-semibold">Perfil</Link>
+        <Link to="" className="hover:underline font-semibold">Sair</Link>
       </nav>
     </header>
   );
 }
-
 export default Navbar;
