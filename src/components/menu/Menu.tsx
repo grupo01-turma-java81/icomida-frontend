@@ -35,10 +35,10 @@ function Menu() {
   useEffect(() => {
     if (token) {
       buscar("/produto", setProdutos, {
-        headers: { Authorization: token }
+        headers: { Authorization: token },
       });
       buscar("/categorias", setCategorias, {
-        headers: { Authorization: token }
+        headers: { Authorization: token },
       });
     }
   }, [token]);
@@ -55,7 +55,7 @@ function Menu() {
     };
 
     cadastrar("/produto", novoProduto, () => {}, {
-      headers: { Authorization: token }
+      headers: { Authorization: token },
     })
       .then(() => {
         setNome("");
@@ -64,7 +64,7 @@ function Menu() {
         setCategoriaId("");
         setShowForm(false);
         buscar("/produto", setProdutos, {
-          headers: { Authorization: token }
+          headers: { Authorization: token },
         });
         alert("Produto cadastrado com sucesso!");
       })
@@ -85,13 +85,13 @@ function Menu() {
       categoria: { id: Number(editCategoriaId) },
     };
 
-    atualizar(`/produto/${id}`, produtoAtualizado, setProdutos, {
-      headers: { Authorization: token }
+    atualizar("/produto", produtoAtualizado, () => {}, {
+      headers: { Authorization: token },
     })
       .then(() => {
         setEditandoId(null);
         buscar("/produto", setProdutos, {
-          headers: { Authorization: token }
+          headers: { Authorization: token },
         });
         alert("Produto atualizado com sucesso!");
       })
@@ -116,11 +116,11 @@ function Menu() {
     if (!window.confirm("Tem certeza que deseja excluir este produto?")) return;
 
     deletar(`/produto/${id}`, {
-      headers: { Authorization: token }
+      headers: { Authorization: token },
     })
       .then(() => {
         buscar("/produto", setProdutos, {
-          headers: { Authorization: token }
+          headers: { Authorization: token },
         });
         alert("Produto excluído com sucesso!");
       })
@@ -140,7 +140,8 @@ function Menu() {
             Menu <br /> <span className="ml-10">ONLINE</span>
           </h1>
           <p className="text-gray-700 text-base mt-2">
-            Cadastre seu produto! Ele será disposto com os outros e fique à vontade para atualizá-lo se necessário
+            Cadastre seu produto! Ele será disposto com os outros e fique à
+            vontade para atualizá-lo se necessário
           </p>
           <button
             className="bg-[#ea3d26] text-white font-bold rounded-full px-7 py-3 text-lg shadow hover:bg-red-700 transition w-fit"
@@ -162,47 +163,57 @@ function Menu() {
           <div className="bg-white rounded-2xl p-8 w-[350px] shadow-lg border">
             <h2 className="text-2xl font-bold mb-6">Cadastrar Produto</h2>
             <form onSubmit={handleAddProduto} className="flex flex-col gap-4">
-              <label className="font-semibold" htmlFor="nome">Nome</label>
+              <label className="font-semibold" htmlFor="nome">
+                Nome
+              </label>
               <input
                 id="nome"
                 type="text"
                 value={nome}
-                onChange={e => setNome(e.target.value)}
+                onChange={(e) => setNome(e.target.value)}
                 className="border border-gray-300 rounded px-3 py-2 mb-2"
                 required
               />
-              <label className="font-semibold" htmlFor="preco">Preço</label>
+              <label className="font-semibold" htmlFor="preco">
+                Preço
+              </label>
               <input
                 id="preco"
                 type="number"
                 min="0.01"
                 step="0.01"
                 value={preco}
-                onChange={e => setPreco(e.target.value)}
+                onChange={(e) => setPreco(e.target.value)}
                 className="border border-gray-300 rounded px-3 py-2 mb-2"
                 required
               />
-              <label className="font-semibold" htmlFor="produtoSaudavel">Produto Saudável</label>
+              <label className="font-semibold" htmlFor="produtoSaudavel">
+                Produto Saudável
+              </label>
               <select
                 id="produtoSaudavel"
                 value={produtoSaudavel}
-                onChange={e => setProdutoSaudavel(e.target.value)}
+                onChange={(e) => setProdutoSaudavel(e.target.value)}
                 className="border border-gray-300 rounded px-3 py-2 mb-2"
               >
                 <option value="Não">Não</option>
                 <option value="Sim">Sim</option>
               </select>
-              <label className="font-semibold" htmlFor="categoria">Categoria</label>
+              <label className="font-semibold" htmlFor="categoria">
+                Categoria
+              </label>
               <select
                 id="categoria"
                 value={categoriaId}
-                onChange={e => setCategoriaId(Number(e.target.value))}
+                onChange={(e) => setCategoriaId(Number(e.target.value))}
                 className="border border-gray-300 rounded px-3 py-2 mb-2"
                 required
               >
                 <option value="">Selecione...</option>
-                {categorias.map(cat => (
-                  <option key={cat.id} value={cat.id}>{cat.nome}</option>
+                {categorias.map((cat) => (
+                  <option key={cat.id} value={cat.id}>
+                    {cat.nome}
+                  </option>
                 ))}
               </select>
               <div className="flex gap-2">
@@ -228,10 +239,8 @@ function Menu() {
       {/* Lista de Produtos */}
       <div className="flex flex-col items-center mt-12 mb-32">
         <h2 className="text-2xl font-bold mb-6">Produtos cadastrados</h2>
-        <div
-          className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-4xl"
-        >
-          {produtos.map(prod => (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-4xl">
+          {produtos.map((prod) => (
             <div
               key={prod.id}
               className={`flex items-center justify-between border rounded-xl px-5 py-3 bg-white font-semibold text-lg shadow-sm focus-within:ring-2 focus-within:ring-blue-500 ${
@@ -244,7 +253,7 @@ function Menu() {
                   <input
                     className="border border-gray-300 rounded px-2 py-1"
                     value={editNome}
-                    onChange={e => setEditNome(e.target.value)}
+                    onChange={(e) => setEditNome(e.target.value)}
                     autoFocus
                   />
                   <input
@@ -253,11 +262,11 @@ function Menu() {
                     min="0.01"
                     step="0.01"
                     value={editPreco}
-                    onChange={e => setEditPreco(e.target.value)}
+                    onChange={(e) => setEditPreco(e.target.value)}
                   />
                   <select
                     value={editProdutoSaudavel}
-                    onChange={e => setEditProdutoSaudavel(e.target.value)}
+                    onChange={(e) => setEditProdutoSaudavel(e.target.value)}
                     className="border border-gray-300 rounded px-2 py-1"
                   >
                     <option value="Não">Não</option>
@@ -265,13 +274,15 @@ function Menu() {
                   </select>
                   <select
                     value={editCategoriaId}
-                    onChange={e => setEditCategoriaId(Number(e.target.value))}
+                    onChange={(e) => setEditCategoriaId(Number(e.target.value))}
                     className="border border-gray-300 rounded px-2 py-1"
                     required
                   >
                     <option value="">Selecione...</option>
-                    {categorias.map(cat => (
-                      <option key={cat.id} value={cat.id}>{cat.nome}</option>
+                    {categorias.map((cat) => (
+                      <option key={cat.id} value={cat.id}>
+                        {cat.nome}
+                      </option>
                     ))}
                   </select>
                 </div>
@@ -287,13 +298,31 @@ function Menu() {
                       />
                     )}
                   </span>
-                  <span className="text-base font-normal text-gray-600">R$ {Number(prod.preco).toFixed(2)}</span>
-                  <span className="text-base font-normal text-gray-600">Categoria: {prod.categoria?.nome}</span>
+                  <span className="text-base font-normal text-gray-600">
+                    R$ {Number(prod.preco).toFixed(2)}
+                  </span>
+                  <span className="text-base font-normal text-gray-600">
+                    Categoria: {prod.categoria?.nome}
+                  </span>
                   {prod.produtoSaudavel === "Sim" && (
-                    <span className="inline-flex items-center gap-1 mt-1 bg-green-500 text-white text-xs px-2 py-1 rounded-full font-bold" style={{ width: "fit-content" }}>
-                      <svg width="14" height="14" fill="none" viewBox="0 0 24 24">
-                        <circle cx="12" cy="12" r="12" fill="#22c55e"/>
-                        <path d="M8 12.5l2.5 2.5L16 9" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <span
+                      className="inline-flex items-center gap-1 mt-1 bg-green-500 text-white text-xs px-2 py-1 rounded-full font-bold"
+                      style={{ width: "fit-content" }}
+                    >
+                      <svg
+                        width="14"
+                        height="14"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle cx="12" cy="12" r="12" fill="#22c55e" />
+                        <path
+                          d="M8 12.5l2.5 2.5L16 9"
+                          stroke="#fff"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
                       </svg>
                       Saudável
                     </span>
